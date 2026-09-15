@@ -1,0 +1,40 @@
+# Default config. Override any field via --config or CLI flags in train.py.
+
+model:
+  num_levels: 3
+  resolutions: [[256, 512], [512, 1024], [1024, 2048]]
+  d_ch: 64
+  l_ch: 128
+  g_ch: 256
+  novelty_ch: 16
+  g_tokens: [16, 32]
+  feat_ch: 128
+  uncertainty_thresh: 0.3
+  share_refinement_weights: true
+
+train:
+  dataset: cityscapes          # one of: cityscapes, ade20k, voc, coco_stuff, camvid
+  data_root: /data/cityscapes
+  crop_size: [1024, 1024]
+  batch_size: 4
+  num_workers: 8
+  epochs: 200
+  lr: 0.001
+  weight_decay: 0.0001
+  optimizer: adamw
+  lr_schedule: poly
+  poly_power: 0.9
+  warmup_epochs: 5
+  margin: 0.05
+  progressive_loss_weight: 0.1
+  level_weights: [0.5, 0.8, 1.0]   # later/harder levels weighted more
+  amp: true
+  grad_clip: 5.0
+  log_interval: 20
+  ckpt_dir: ./checkpoints
+  resume: null
+
+eval:
+  batch_size: 1
+  eval_interval_epochs: 5
+  save_best: true
